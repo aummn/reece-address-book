@@ -41,6 +41,14 @@ public interface AddressBookRecordRepository {
     Optional<AddressBookRecord> findRecordById(Long id);
 
     /**
+     * Find a list of address book records by name, or phone
+     *
+     * @param searchString the string containing name, or phone
+     *
+     */
+    List<AddressBookRecord> findRecord(String searchString);
+
+    /**
      * Find all records from multiple address books.
      *
      * @param addressBookIds the ids of address books

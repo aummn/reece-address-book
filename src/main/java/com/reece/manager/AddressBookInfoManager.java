@@ -5,6 +5,7 @@ import com.reece.model.AddressBookInfoDataTableModel;
 import com.reece.service.AddressBookInfoService;
 import com.reece.service.AddressBookInfoServiceImpl;
 import com.reece.ui.AddressBookAddDialog;
+import com.reece.ui.AddressBookDialog;
 
 import javax.swing.*;
 import java.util.ArrayList;

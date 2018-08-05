@@ -59,6 +59,19 @@ public class AddressBookRecordRepositoryImpl implements AddressBookRecordReposit
         }
     }
 
+    public List<AddressBookRecord> findRecord(String searchString) {
+        lock.lock();
+        try {
+            return addressBookMap.entrySet().stream()
+                    .filter(entry -> entry.getValue().getName().contains(searchString) ||
+                                       entry.getValue().getPhone().contains(searchString))
+                    .map(Map.Entry::getValue)
+                    .collect(Collectors.toList());
+        } finally {
+            lock.unlock();
+        }
+    }
+
     public List<AddressBookRecord> findAllRecordsByAbids(List<Long> addressBookIds) {
         if(addressBookIds == null) throw new IllegalArgumentException("address book Ids is required");
 

@@ -177,4 +177,51 @@ public class AddressBookRecordRepositoryImplTest {
         assertThat(records).isEmpty();
     }
 
+
+    @Test
+    public void findRecord() {
+        Long key = keyGenerator.incrementAndGet();
+        AddressBookRecord record1 = new AddressBookRecord(key, "peter", "0430111002", 1L);
+        repo.addRecord(record1);
+        key = keyGenerator.incrementAndGet();
+        AddressBookRecord record2 = new AddressBookRecord(key, "donald", "0435495021", 1L);
+        repo.addRecord(record2);
+        key = keyGenerator.incrementAndGet();
+        AddressBookRecord record3 = new AddressBookRecord(key, "dick", "0402124587", 1L);
+        repo.addRecord(record3);
+
+        key = keyGenerator.incrementAndGet();
+        AddressBookRecord record4 = new AddressBookRecord(key, "tom", "0422484920", 2L);
+        repo.addRecord(record4);
+        key = keyGenerator.incrementAndGet();
+        AddressBookRecord record5 = new AddressBookRecord(key, "sam", "0430823002", 2L);
+        repo.addRecord(record5);
+        key = keyGenerator.incrementAndGet();
+        AddressBookRecord record6 = new AddressBookRecord(key, "larry", "0435498247", 2L);
+        repo.addRecord(record6);
+
+        List<AddressBookRecord> records = repo.findRecord(String.valueOf(1));
+        assertThat(records).isNotEmpty().hasSize(3).extracting("id", "name", "phone", "abid")
+                .contains(tuple(1L, "peter", "0430111002", 1L),
+                        tuple(2L, "donald", "0435495021", 1L),
+                        tuple(3L, "dick", "0402124587", 1L));
+
+        records = repo.findRecord("d");
+        assertThat(records).isNotEmpty().hasSize(2).extracting("id", "name", "phone", "abid")
+                .contains(tuple(2L, "donald", "0435495021", 1L),
+                        tuple(3L, "dick", "0402124587", 1L));
+
+        records = repo.findRecord("02");
+        assertThat(records).isNotEmpty().hasSize(4).extracting("id", "name", "phone", "abid")
+                .contains(tuple(1L, "peter", "0430111002", 1L),
+                        tuple(2L, "donald", "0435495021", 1L),
+                        tuple(3L, "dick", "0402124587", 1L),
+                        tuple(5L, "sam", "0430823002", 2L));
+
+        records = repo.findRecord("7");
+        assertThat(records).isNotEmpty().hasSize(2).extracting("id", "name", "phone", "abid")
+                .contains(tuple(3L, "dick", "0402124587", 1L),
+                        tuple(6L, "larry", "0435498247", 2L));
+    }
+
 }

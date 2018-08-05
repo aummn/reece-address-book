@@ -120,7 +120,7 @@ public class AddressBookAddDialog extends JDialog {
      * This class used to handle address book creation triggered by Add button clicking.
      *
      */
-    public class AddressBookAddButtonListener implements ActionListener {
+    private class AddressBookAddButtonListener implements ActionListener {
         
         /* a <code>Window</code> object to be disposed */
         private Window window;

@@ -43,6 +43,13 @@ public class AddressBookRecordServiceImpl implements AddressBookRecordService {
         return repo.findRecordById(id).map(r -> new Contact(r.getId(), r.getName(), r.getPhone()));
     }
 
+    public List<Contact> findContact(String searchString) {
+        if(searchString == null) throw new IllegalArgumentException("search string is required");
+        return repo.findRecord(searchString).stream()
+                .map(r -> new Contact(r.getId(), r.getName(), r.getPhone()))
+                .collect(Collectors.toList());
+    }
+
     public List<Contact> findAllContacts(List<Long> addressBookIds) {
         if(addressBookIds == null) throw new IllegalArgumentException("address book ids is required");
         return repo.findAllRecordsByAbids(addressBookIds).stream()

@@ -42,6 +42,15 @@ public interface AddressBookRecordService {
     Optional<Contact> findContact(long id);
 
     /**
+     * Find a list of contacts.
+     *
+     * @param searchString a string containing name, or phone
+     * @return a list of Contact objects
+     *
+     */
+    List<Contact> findContact(String searchString);
+
+    /**
      * Find all contacts from multiple address books.
      *
      * @param addressBookIds the ids of address books

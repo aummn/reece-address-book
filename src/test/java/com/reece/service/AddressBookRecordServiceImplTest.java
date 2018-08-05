@@ -89,6 +89,46 @@ public class AddressBookRecordServiceImplTest {
     }
 
     @Test
+    public void findContact_SearchString() {
+
+        Contact c1 = new Contact();
+        c1.setId(1L);
+        c1.setName("peter");
+        c1.setPhone("0430111002");
+
+        AddressBookRecord record1 = new AddressBookRecord(1, "peter", "0430111002", 1);
+        AddressBookRecord record2 = new AddressBookRecord(2, "donald", "0435495021", 1);
+        AddressBookRecord record3 = new AddressBookRecord(3, "dick", "0402124587", 1);
+
+        AddressBookRecord record4 = new AddressBookRecord(4, "tom", "0422484920", 2L);
+        AddressBookRecord record5 = new AddressBookRecord(5, "sam", "0430823002", 2L);
+        AddressBookRecord record6 = new AddressBookRecord(6, "larry", "0435498247", 2L);
+
+        when(repository.findRecord("1"))
+                .thenReturn(Arrays.asList(record1, record2, record3));
+        List<Contact> contactList = service.findContact("1");
+        assertThat(contactList).isNotEmpty().hasSize(3).extracting("id", "name", "phone")
+                .contains(tuple(1L, "peter", "0430111002"),
+                        tuple(2L, "donald", "0435495021"),
+                        tuple(3L, "dick", "0402124587"));
+
+        when(repository.findRecord("7"))
+                .thenReturn(Arrays.asList(record3, record6));
+        contactList = service.findContact(String.valueOf(7));
+        assertThat(contactList).isNotEmpty().hasSize(2).extracting("id", "name", "phone")
+                .contains(tuple(3L, "dick", "0402124587"),
+                        tuple(6L, "larry", "0435498247")
+                );
+
+        when(repository.findRecord("om"))
+                .thenReturn(Arrays.asList(record4));
+        contactList = service.findContact("om");
+        assertThat(contactList).isNotEmpty().hasSize(1).extracting("id", "name", "phone")
+                .contains(tuple(4L, "tom", "0422484920"));
+    }
+
+
+    @Test
     public void removeContact() {
 
         Contact c1 = new Contact();
