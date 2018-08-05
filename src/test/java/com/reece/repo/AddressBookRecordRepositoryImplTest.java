@@ -13,13 +13,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class AddressBookRepositoryImplTest {
+public class AddressBookRecordRepositoryImplTest {
     private AtomicLong keyGenerator = null;
-    private AddressBookRepositoryImpl repo;
+    private AddressBookRecordRepositoryImpl repo;
 
     @Before
     public void runBeforeEveryTest() {
-        repo = new AddressBookRepositoryImpl();
+        repo = new AddressBookRecordRepositoryImpl();
         keyGenerator = new AtomicLong(0);
     }
 

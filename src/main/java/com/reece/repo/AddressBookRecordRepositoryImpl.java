@@ -9,13 +9,13 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
- * This class is the implementation of the interface AddressBookRepository.
+ * This class is the implementation of the interface AddressBookRecordRepository.
  *
  * @author zhimeng
  * @version 1.0 4/8/2018
  * @since 1.0
  */
-public class AddressBookRepositoryImpl implements AddressBookRepository {
+public class AddressBookRecordRepositoryImpl implements AddressBookRecordRepository {
 
     // the data store for address book records
     private Map<Long, AddressBookRecord> addressBookMap = new HashMap<>();
@@ -27,7 +27,7 @@ public class AddressBookRepositoryImpl implements AddressBookRepository {
     private Lock lock = new ReentrantLock();
 
 
-    public AddressBookRepositoryImpl() {}
+    public AddressBookRecordRepositoryImpl() {}
 
     public AddressBookRecord addRecord(AddressBookRecord record) {
         lock.lock();

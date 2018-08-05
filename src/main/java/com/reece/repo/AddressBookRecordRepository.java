@@ -12,7 +12,7 @@ import java.util.Optional;
  * @version 1.0 4/8/2018
  * @since 1.0
  */
-public interface AddressBookRepository {
+public interface AddressBookRecordRepository {
 
     /**
      * Add a record to an address book.

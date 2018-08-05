@@ -2,7 +2,7 @@ package com.reece.service;
 
 import com.reece.model.AddressBookRecord;
 import com.reece.model.Contact;
-import com.reece.repo.AddressBookRepositoryImpl;
+import com.reece.repo.AddressBookRecordRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,13 +19,13 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddressBookServiceImplTest {
+public class AddressBookRecordServiceImplTest {
 
     @Mock
-    private AddressBookRepositoryImpl repository;
+    private AddressBookRecordRepositoryImpl repository;
 
     @InjectMocks
-    private AddressBookServiceImpl service;
+    private AddressBookRecordServiceImpl service;
 
 
     @Test

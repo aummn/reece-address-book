@@ -2,8 +2,8 @@ package com.reece.service;
 
 import com.reece.model.AddressBookRecord;
 import com.reece.model.Contact;
-import com.reece.repo.AddressBookRepository;
-import com.reece.repo.AddressBookRepositoryImpl;
+import com.reece.repo.AddressBookRecordRepository;
+import com.reece.repo.AddressBookRecordRepositoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,18 +14,18 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * This class is the implementation of the interface AddressBookService.
+ * This class is the implementation of the interface AddressBookRecordService.
  *
  * @author zhimeng
  * @version 1.0 5/8/2018
  * @since 1.0
  */
-public class AddressBookServiceImpl implements AddressBookService {
+public class AddressBookRecordServiceImpl implements AddressBookRecordService {
 
-    private AddressBookRepository repo;
+    private AddressBookRecordRepository repo;
 
-    public AddressBookServiceImpl() {
-        this.repo = new AddressBookRepositoryImpl();
+    public AddressBookRecordServiceImpl() {
+        this.repo = new AddressBookRecordRepositoryImpl();
     }
 
     public Contact addContact(Contact c, long addressBookId) {
