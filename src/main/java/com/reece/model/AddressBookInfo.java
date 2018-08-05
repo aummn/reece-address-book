@@ -9,18 +9,18 @@ import java.util.Objects;
  * @version 1.0 5/8/2018
  * @since 1.0
  */
-public class AddressBook {
+public class AddressBookInfo {
 
     private long id;
     private String name;
 
-    public AddressBook() {}
+    public AddressBookInfo() {}
 
-    public AddressBook(String name) {
+    public AddressBookInfo(String name) {
         this.name = name;
     }
 
-    public AddressBook(long id, String name) {
+    public AddressBookInfo(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -41,12 +41,11 @@ public class AddressBook {
         this.name = name;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressBook that = (AddressBook) o;
+        AddressBookInfo that = (AddressBookInfo) o;
         return id == that.id &&
                 Objects.equals(name, that.name);
     }
@@ -59,7 +58,7 @@ public class AddressBook {
 
     @Override
     public String toString() {
-        return "AddressBook{" +
+        return "AddressBookInfoRecord{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
