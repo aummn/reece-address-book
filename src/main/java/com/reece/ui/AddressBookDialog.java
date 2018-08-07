@@ -79,9 +79,7 @@ public class AddressBookDialog extends JDialog {
         addressBookRecordManager.registerContactNameTextField(contactNameTextField);
 
         JList addressBookDataList = new JList();
-        Object[] data = this.addressBookRecordManager.getAddressBookInfoManager()
-                .searchAddressBook(null)
-                .stream()
+        Object[] data = addressBookRecordManager.getAddressBookInfoService().findAddressBookInfoByName("").stream()
                 .map(AddressBookInfoItem::new).toArray();
         addressBookDataList.setListData(data);
         addressBookDataList.setVisibleRowCount(3);

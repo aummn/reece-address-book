@@ -2,16 +2,14 @@ package com.reece.manager;
 
 import com.reece.model.AddressBookInfo;
 import com.reece.model.AddressBookInfoDataTableModel;
+import com.reece.model.AddressBookInfoItem;
 import com.reece.service.AddressBookInfoService;
 import com.reece.service.AddressBookInfoServiceImpl;
 import com.reece.ui.AddressBookAddDialog;
 import com.reece.ui.AddressBookDialog;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * This class manages the communication among all elements on the address book info frame.
@@ -20,7 +18,7 @@ import java.util.Optional;
  * @version 1.0 5/8/2018
  * @since 1.0
  */
-public class AddressBookInfoManager {
+public class AddressBookInfoManager extends Observable {
 
     private JTable addressBookInfoDataTable;
     private AddressBookInfoDataTableModel dataTableModel;
@@ -35,7 +33,10 @@ public class AddressBookInfoManager {
      */
     public AddressBookInfoManager() {
         this.addressBookInfoService = new AddressBookInfoServiceImpl();
-        this.dataTableModel = new AddressBookInfoDataTableModel(new ArrayList<>(),
+        this.addressBookRecordManager = new AddressBookRecordManager(addressBookInfoService);
+        this.addObserver(addressBookRecordManager);
+        this.dataTableModel = new AddressBookInfoDataTableModel(
+                new ArrayList<>(),
                 AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES,
                 AddressBookInfoDataTableModel.ROW_COUNT,
                 AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES.length);
@@ -98,7 +99,7 @@ public class AddressBookInfoManager {
      */
     public void showContactDialog() {
         if(this.addressBookDialog == null) {
-            this.addressBookDialog = new AddressBookDialog("Address Book", this.getAddressBookRecordManager());
+            this.addressBookDialog = new AddressBookDialog("Contacts", addressBookRecordManager);
         }
         addressBookRecordManager.clearDisplayedData();
         addressBookRecordManager.showDialog(this.addressBookDialog);
@@ -120,7 +121,7 @@ public class AddressBookInfoManager {
                     .forEach(rowNumber -> selectedAddressBookInfoIdList.add(dataModelList.get(rowNumber).getId()));
 
             if(this.addressBookDialog == null) {
-                this.addressBookDialog = new AddressBookDialog("Address Book", this.getAddressBookRecordManager());
+                this.addressBookDialog = new AddressBookDialog("Address Book", addressBookRecordManager);
             }
 
             // show contacts in address books
@@ -145,7 +146,7 @@ public class AddressBookInfoManager {
                     .forEach(rowNumber -> selectedAddressBookInfoIdList.add(dataModelList.get(rowNumber).getId()));
 
             if(this.addressBookDialog == null) {
-                this.addressBookDialog = new AddressBookDialog("Address Book", this.getAddressBookRecordManager());
+                this.addressBookDialog = new AddressBookDialog("Address Book", addressBookRecordManager);
             }
 
             // show unique contacts in address books
@@ -178,7 +179,7 @@ public class AddressBookInfoManager {
                 AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES,
                 rowCount, columnCount);
         addressBookInfoDataTable.setModel(dataTableModel);
-        this.getAddressBookRecordManager().updateAddressBookDataList();
+        this.updateAddressBookDataList();
     }
 
     /**
@@ -212,11 +213,24 @@ public class AddressBookInfoManager {
                     AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES,
                     rowCount, columnCount);
             addressBookInfoDataTable.setModel(dataTableModel);
-            this.getAddressBookRecordManager().updateAddressBookDataList();
+            this.updateAddressBookDataList();
         }
         nameTextField.requestFocusInWindow();
     }
-    
+
+    /**
+     * Notify observers registered with this manager to update address book list.
+     *
+     */
+    private void updateAddressBookDataList() {
+        Object[] data = this.addressBookInfoService.findAddressBookInfoByName("").stream()
+                .map(AddressBookInfoItem::new).toArray();
+
+        setChanged();
+        notifyObservers(data);
+    }
+
+
     /**
      * Registers the <code>DataTable</code> object with this manager.
      *
@@ -247,4 +261,10 @@ public class AddressBookInfoManager {
     public void setAddressBookRecordManager(AddressBookRecordManager addressBookRecordManager) {
         this.addressBookRecordManager = addressBookRecordManager;
     }
+
+    public AddressBookInfoDataTableModel getDataTableModel() {
+        return dataTableModel;
+    }
+
+
 }

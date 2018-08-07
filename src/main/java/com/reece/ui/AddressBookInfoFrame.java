@@ -1,8 +1,6 @@
 package com.reece.ui;
 
 import com.reece.manager.AddressBookInfoManager;
-import com.reece.manager.AddressBookRecordManager;
-import com.reece.model.AddressBookInfoDataTableModel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -34,6 +32,7 @@ public class AddressBookInfoFrame extends JFrame {
      */
     public AddressBookInfoFrame(String title) {
         super(title);
+        this.addressBookInfoManager = new AddressBookInfoManager();
         addWindowListener(new WindowCloser());
         setupGUI();
     }
@@ -43,19 +42,9 @@ public class AddressBookInfoFrame extends JFrame {
      */
     public void setupGUI() {
 
-        // setup manager
-        this.addressBookInfoManager = new AddressBookInfoManager();
-        this.addressBookInfoManager.setAddressBookRecordManager(new AddressBookRecordManager(this.addressBookInfoManager));
-
         /* sets up display elements */
         JTable addressBookInfoDataTable = new JTable();
-
-        AddressBookInfoDataTableModel addressBookInfoDataTableModel = new AddressBookInfoDataTableModel(null,
-                AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES,
-                AddressBookInfoDataTableModel.ROW_COUNT,
-                AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES.length);
-
-        addressBookInfoDataTable.setModel(addressBookInfoDataTableModel);
+        addressBookInfoDataTable.setModel(this.addressBookInfoManager.getDataTableModel());
         addressBookInfoManager.registerAddressBookInfoDataTable(addressBookInfoDataTable);
 
         JTextField nameTextField = new JTextField(20);

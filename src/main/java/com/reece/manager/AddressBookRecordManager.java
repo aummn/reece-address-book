@@ -3,16 +3,15 @@ package com.reece.manager;
 import com.reece.model.AddressBookDataTableModel;
 import com.reece.model.AddressBookInfoItem;
 import com.reece.model.Contact;
+import com.reece.service.AddressBookInfoService;
 import com.reece.service.AddressBookRecordService;
 import com.reece.service.AddressBookRecordServiceImpl;
 import com.reece.ui.AddressBookDialog;
 import com.reece.ui.ContactAddDialog;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 
 /**
  * This class controls the communication among all elements on the address book dialog.
@@ -21,13 +20,13 @@ import java.util.Optional;
  * @version 1.0 5/8/2018
  * @since 1.0
  */
-public class AddressBookRecordManager {
+public class AddressBookRecordManager implements Observer {
 
     private JTable addressBookDataTable;
     private JTextField contactNameTextField;
     private AddressBookDataTableModel addressBookDataTableModel;
     private AddressBookRecordService addressBookRecordService;
-    private AddressBookInfoManager addressBookInfoManager;
+    private AddressBookInfoService addressBookInfoService;
     private AddressBookDialog addressBookDialog;
     private JList addressBookDataList;
 
@@ -35,9 +34,9 @@ public class AddressBookRecordManager {
      * Creates a <code>AddressBookRecordManager</code> object.
      *
      */
-    public AddressBookRecordManager(AddressBookInfoManager addressBookInfoManager) {
+    public AddressBookRecordManager(AddressBookInfoService addressBookInfoService) {
         this.addressBookRecordService = new AddressBookRecordServiceImpl();
-        this.addressBookInfoManager = addressBookInfoManager;
+        this.addressBookInfoService = addressBookInfoService;
         addressBookDataTableModel = new AddressBookDataTableModel(null, AddressBookDataTableModel.ADDRESS_BOOK_RECORD_FIELD_NAMES,
                 AddressBookDataTableModel.ROW_COUNT, AddressBookDataTableModel.ADDRESS_BOOK_RECORD_FIELD_NAMES.length);
     }
@@ -176,7 +175,7 @@ public class AddressBookRecordManager {
      *
      */
     public void addContact() {
-        ContactAddDialog dialog = new ContactAddDialog(this, this.addressBookInfoManager);
+        ContactAddDialog dialog = new ContactAddDialog(this);
         dialog.setVisible(true);
     }
 
@@ -239,13 +238,12 @@ public class AddressBookRecordManager {
      * Update the address book list data.
      *
      */
-    public void updateAddressBookDataList() {
-        if(this.addressBookDialog != null) {
-            Object[] data = this.getAddressBookInfoManager().searchAddressBook(null).stream()
-                    .map(AddressBookInfoItem::new).toArray();
+    public void update(Observable o, Object arg) {
+        Object[] data = (Object[])arg;
+        if(this.addressBookDialog != null)
             this.getAddressBookDataList().setListData(data);
-        }
     }
+
 
     /**
      * Registers the <code>DataTable</code> object with this Manager.
@@ -282,19 +280,15 @@ public class AddressBookRecordManager {
         this.addressBookDialog = addressBookDialog;
     }
 
-    public AddressBookInfoManager getAddressBookInfoManager() {
-        return addressBookInfoManager;
-    }
-
-    public void setAddressBookInfoManager(AddressBookInfoManager addressBookInfoManager) {
-        this.addressBookInfoManager = addressBookInfoManager;
-    }
-
     public JList getAddressBookDataList() {
         return addressBookDataList;
     }
 
     public void setAddressBookDataList(JList addressBookDataList) {
         this.addressBookDataList = addressBookDataList;
+    }
+
+    public AddressBookInfoService getAddressBookInfoService() {
+        return addressBookInfoService;
     }
 }

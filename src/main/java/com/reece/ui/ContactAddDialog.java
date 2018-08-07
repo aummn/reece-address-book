@@ -1,6 +1,5 @@
 package com.reece.ui;
 
-import com.reece.manager.AddressBookInfoManager;
 import com.reece.manager.AddressBookRecordManager;
 import com.reece.model.AddressBookInfoItem;
 import com.reece.model.Contact;
@@ -51,17 +50,12 @@ public class ContactAddDialog extends JDialog {
      */
     private AddressBookRecordManager addressBookRecordManager;
 
-    /**
-     * An object used to communicate with all user interface elements on address book info frame
-     */
-    private AddressBookInfoManager addressBookInfoManager;
-
 
 
     /**
      * Creates a <code>ContactAddDialog</code> object
      */
-    public ContactAddDialog(AddressBookRecordManager addressBookRecordManager, AddressBookInfoManager addressBookInfoManager) {
+    public ContactAddDialog(AddressBookRecordManager addressBookRecordManager) {
 
         super();
         setModal(true);
@@ -70,7 +64,6 @@ public class ContactAddDialog extends JDialog {
         this.contactName = "";
         this.contactPhone = "";
         this.addressBookRecordManager = addressBookRecordManager;
-        this.addressBookInfoManager = addressBookInfoManager;
         setupGUI();
     }
     
@@ -92,8 +85,8 @@ public class ContactAddDialog extends JDialog {
         JLabel addressBookLabel = new JLabel("Address book: ");
         addressBookInfoJComboBox = new JComboBox<>();
 
-        addressBookInfoManager.searchAddressBook(null)
-                .forEach(r -> addressBookInfoJComboBox.addItem(new AddressBookInfoItem(r)));
+        addressBookRecordManager.getAddressBookInfoService().findAddressBookInfoByName("").stream()
+                .forEach(addressBookInfo -> addressBookInfoJComboBox.addItem(new AddressBookInfoItem(addressBookInfo)));
 
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
         
