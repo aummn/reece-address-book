@@ -201,7 +201,6 @@ public class AddressBookRecordManager implements Observer {
      */
     public void removeContact() {
         List<Contact> selectedContactList = new ArrayList<>();
-        List<Contact> successfullyRemovedContactList = new ArrayList<>();
         int[] rowNumbers = addressBookDataTable.getSelectedRows();
         List<Contact> dataModelList = (List<Contact>) addressBookDataTableModel.getList();
 
@@ -216,8 +215,7 @@ public class AddressBookRecordManager implements Observer {
             selectedContactList
                     .forEach(contact -> {
                         dataModelList.remove(contact);
-                        Optional<Contact> removedContact = addressBookRecordService.removeContact(contact.getId());
-                        removedContact.ifPresent(successfullyRemovedContactList::add);
+                        addressBookRecordService.removeContact(contact.getId());
                     });
 
             // refresh the data table to reflect changes
@@ -226,10 +224,6 @@ public class AddressBookRecordManager implements Observer {
             addressBookDataTableModel = new AddressBookDataTableModel(dataModelList, AddressBookDataTableModel.ADDRESS_BOOK_RECORD_FIELD_NAMES,
                     rowCount, columnCount);
             addressBookDataTable.setModel(addressBookDataTableModel);
-
-            if(selectedContactList.size() == successfullyRemovedContactList.size())
-                JOptionPane.showMessageDialog(null,"Selected contact has been removed!");
-
         }
         contactNameTextField.requestFocusInWindow();
     }
@@ -282,10 +276,6 @@ public class AddressBookRecordManager implements Observer {
 
     public JList getAddressBookDataList() {
         return addressBookDataList;
-    }
-
-    public void setAddressBookDataList(JList addressBookDataList) {
-        this.addressBookDataList = addressBookDataList;
     }
 
     public AddressBookInfoService getAddressBookInfoService() {

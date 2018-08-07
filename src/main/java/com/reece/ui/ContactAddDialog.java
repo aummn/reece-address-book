@@ -85,7 +85,7 @@ public class ContactAddDialog extends JDialog {
         JLabel addressBookLabel = new JLabel("Address book: ");
         addressBookInfoJComboBox = new JComboBox<>();
 
-        addressBookRecordManager.getAddressBookInfoService().findAddressBookInfoByName("").stream()
+        addressBookRecordManager.getAddressBookInfoService().findAddressBookInfoByName("")
                 .forEach(addressBookInfo -> addressBookInfoJComboBox.addItem(new AddressBookInfoItem(addressBookInfo)));
 
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);

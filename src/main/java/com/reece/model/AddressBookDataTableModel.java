@@ -147,7 +147,7 @@ public class AddressBookDataTableModel extends AbstractTableModel {
      *
      * @return A <code>Class</code> object to be the class of this column.
      * It is used to increase the likelihood of being matched up with
-     * more appropriate renderers and editors.
+     * more appropriate renders and editors.
      */
     public Class getColumnClass(int column) {
         

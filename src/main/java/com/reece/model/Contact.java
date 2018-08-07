@@ -17,10 +17,6 @@ public class Contact {
 
     public Contact() {}
 
-    public Contact(String name) {
-        this.name = name;
-    }
-
     public Contact(String name, String phone) {
         this.name = name;
         this.phone = phone;

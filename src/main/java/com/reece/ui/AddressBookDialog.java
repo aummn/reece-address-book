@@ -48,10 +48,7 @@ public class AddressBookDialog extends JDialog {
      * Lays out the user interface.
      */
     public void setupGUI() {
-        
-        /* sets up actions to generate buttons */
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
-        
+
         /* sets up display elements */
         JTable addressBookDataTable = new JTable();
 

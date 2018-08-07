@@ -28,13 +28,13 @@ Two UIs are used for address book manipulation and contact manipulation.
    
    1) create an address book
    2) remove address books 
-        (press CTRL + mouse left button to select one or more adress books)
+        (press CTRL + mouse left button to select one or more address books)
    3) search address books 
         (instant searching after typing in address book name)
    4) show contacts in selected address books 
-        (press CTRL + mouse left button to select one or more adress books)
+        (press CTRL + mouse left button to select one or more address books)
    5) show unique contacts in selected address books
-        (press CTRL + mouse left button to select one or more adress books)
+        (press CTRL + mouse left button to select one or more address books)
    6) clear the displayed data
    7) go to the contact management UI
    
@@ -48,9 +48,9 @@ Two UIs are used for address book manipulation and contact manipulation.
    3) search contacts
         (instant searching after typing in contact name / phone)
    4) show contacts in selected address books
-        (press CTRL + mouse left button to select one or more adress books)
+        (press CTRL + mouse left button to select one or more address books)
    5) show unique contacts in selected address books
-        (press CTRL + mouse left button to select one or more adress books)
+        (press CTRL + mouse left button to select one or more address books)
    6) clear the displayed data
    7) close the contact management UI   
        

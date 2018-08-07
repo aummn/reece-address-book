@@ -52,8 +52,8 @@ public class AddressBookInfoRepositoryImplTest {
         AddressBookInfoRecord record3 = new AddressBookInfoRecord(key, "sydney");
 
         AddressBookInfoRecord savedRecord1 = repo.addAddressBookInfo(record1);
-        AddressBookInfoRecord savedRecord2 = repo.addAddressBookInfo(record2);
-        AddressBookInfoRecord savedRecord3 = repo.addAddressBookInfo(record3);
+        repo.addAddressBookInfo(record2);
+        repo.addAddressBookInfo(record3);
 
         Optional<AddressBookInfoRecord> recordOptional = repo.removeAddressBookInfo(1L);
         assertThat(recordOptional).isNotEmpty().hasValue(savedRecord1);

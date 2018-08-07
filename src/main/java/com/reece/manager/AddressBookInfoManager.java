@@ -66,16 +66,6 @@ public class AddressBookInfoManager extends Observable {
     }
 
     /**
-     * Search the address books by name.
-     *
-     * @param  addressBookName  the name of an address book
-     */
-    public List<AddressBookInfo> searchAddressBook(String addressBookName) {
-        if (addressBookName == null) addressBookName = "";
-        return addressBookInfoService.findAddressBookInfoByName(addressBookName);
-    }
-
-    /**
      * clear the shown data on screen.
      *
      */
@@ -116,7 +106,7 @@ public class AddressBookInfoManager extends Observable {
         if (rowNumbers.length == 0) {
             JOptionPane.showMessageDialog(null, "Please select a row in a table!");
         } else {
-            List<AddressBookInfo> dataModelList = (List<AddressBookInfo>)dataTableModel.getList();
+            List<AddressBookInfo> dataModelList = dataTableModel.getList();
             Arrays.stream(rowNumbers)
                     .forEach(rowNumber -> selectedAddressBookInfoIdList.add(dataModelList.get(rowNumber).getId()));
 
@@ -188,10 +178,8 @@ public class AddressBookInfoManager extends Observable {
      */
     public void removeAddressBook() {
         List<AddressBookInfo> selectedAddressBookInfoList = new ArrayList<>();
-        List<AddressBookInfo> successfullyRemovedAddressBookInfoList = new ArrayList();
-
         int[] rowNumbers = addressBookInfoDataTable.getSelectedRows();
-        List<AddressBookInfo> dataModelList = (List<AddressBookInfo>)dataTableModel.getList();
+        List<AddressBookInfo> dataModelList = dataTableModel.getList();
 
         if (rowNumbers.length == 0) {
             JOptionPane.showMessageDialog(null, "Please select a row in a table!");
@@ -203,8 +191,7 @@ public class AddressBookInfoManager extends Observable {
             selectedAddressBookInfoList
                     .forEach(info -> {
                         dataModelList.remove(info);
-                        Optional<AddressBookInfo> removedAddressBookInfo = addressBookInfoService.removeAddressBookInfo(info.getId());
-                        removedAddressBookInfo.ifPresent(successfullyRemovedAddressBookInfoList::add);
+                        addressBookInfoService.removeAddressBookInfo(info.getId());
                     });
 
             int rowCount = (dataModelList == null)? 0 : dataModelList.size();
@@ -252,14 +239,6 @@ public class AddressBookInfoManager extends Observable {
         
         this.nameTextField = nameTextField;
         
-    }
-
-    public AddressBookRecordManager getAddressBookRecordManager() {
-        return addressBookRecordManager;
-    }
-
-    public void setAddressBookRecordManager(AddressBookRecordManager addressBookRecordManager) {
-        this.addressBookRecordManager = addressBookRecordManager;
     }
 
     public AddressBookInfoDataTableModel getDataTableModel() {
