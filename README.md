@@ -55,12 +55,42 @@ Two UIs are used for address book manipulation and contact manipulation.
    7) close the contact management UI   
        
 
+Project Structure
+-----------------------------------------------
+
 The project structure is created with Maven and follow the conventions. 
-It has a set of unit tests to test service classes and repository classes. 
+
+   
+Reece-address-book (project root directory)
+
+    -- src   (source code)
+    
+       -- java
+          
+          -- manager  (the classes managing UI elements communication)
+          -- model    (the model calssed used in UI, service, repository)
+          -- repo     (the classes simulating address book data store)
+          -- service  (the classes managing address books and contacts)
+          -- ui       (the user interface classes)
+          App         (the application entry point)
+    
+    -- test  (unit tests)
+
+       -- java
+       
+          -- repo     (unit tests for repo classes)
+          -- service  (unit tests for service classes)
+          
+    pom.xml           (the Maven pom file)
+    
+    README.md         (the project document file)
+          
+
 
 System Environment
 -----------------------------------------------
 * Java version: 1.8.0_172, vendor: Oracle Corporation
+* IntelliJ IDEA 2018.1.6 (Ultimate Edition)
 * Git version 2.18.0.windows.1
 * Apache Maven 3.5.0
 * OS name: "windows 7", version: "6.1", arch: "amd64", family: "windows"
@@ -84,7 +114,9 @@ To build without running the unit test, enter the project directory, for example
 Running Application from the command line
 -------------------------------------------
 
-To run the address application, please use the following option to present the address book info UI.
+To run the address application, please use the following option to run the executable jar "reece-address-book-1.0.jar" which
+ would show the address book info UI. Users can click buttons on the UI to add/remove/search address books and 
+ also can navigate to contact management UI from the address book info UI to add/remove/search contacts.
 
 Option 1:
 Enter the project directory, for example "/d/dev/Code/reece-address-book", type the following command, 
@@ -97,8 +129,7 @@ for example:
     $ java -jar target/reece-address-book-1.0.jar
     
 
-This would start the address book application and present the address book info UI. 
-Users can click the buttons to maintain address books and contacts.
+This would start the address book application and present the address book info UI.
 
 
 Stop Running Application from the command line
@@ -111,6 +142,13 @@ Or click the red X icon on the right top of the address book info UI to stop it.
 Version Control
 -------
 Git is used for version control system.
+
+
+
+
+Contact
+-------
+If need more information, please contact me at  canglangke001@gmail.com
 
 
 
