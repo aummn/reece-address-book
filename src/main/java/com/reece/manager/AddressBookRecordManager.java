@@ -281,4 +281,8 @@ public class AddressBookRecordManager implements Observer {
     public AddressBookInfoService getAddressBookInfoService() {
         return addressBookInfoService;
     }
+
+    public AddressBookRecordService getAddressBookRecordService() {
+        return addressBookRecordService;
+    }
 }

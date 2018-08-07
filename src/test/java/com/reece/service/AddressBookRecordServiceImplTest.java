@@ -1,5 +1,6 @@
 package com.reece.service;
 
+import com.reece.model.AddressBookInfoRecord;
 import com.reece.model.AddressBookRecord;
 import com.reece.model.Contact;
 import com.reece.repo.AddressBookRecordRepositoryImpl;
@@ -140,6 +141,7 @@ public class AddressBookRecordServiceImplTest {
 
         Optional<Contact> removedContactOptional = service.removeContact(1L);
         verify(repository, times(1)).removeRecord(1L);
+        assertThat(removedContactOptional.isPresent()).isTrue();
         assertThat(removedContactOptional.get()).isEqualTo(c1);
     }
 
@@ -158,6 +160,71 @@ public class AddressBookRecordServiceImplTest {
         assertThat(removedContactOptional).isEmpty();
     }
 
+
+    @Test
+    public void removeContactsFromAddressBook() {
+
+        AddressBookInfoRecord outputRecord2 = new AddressBookInfoRecord();
+        outputRecord2.setId(2L);
+        outputRecord2.setName("melbourne");
+
+        AddressBookInfoRecord outputRecord3 = new AddressBookInfoRecord();
+        outputRecord3.setId(3L);
+        outputRecord3.setName("sydney");
+
+        AddressBookRecord record1 = new AddressBookRecord();
+        record1.setId(1L);
+        record1.setName("peter");
+        record1.setPhone("0430111002");
+        record1.setAbid(2L);
+
+        AddressBookRecord record2 = new AddressBookRecord();
+        record2.setId(2L);
+        record2.setName("donald");
+        record2.setPhone("0435495021");
+        record2.setAbid(2L);
+
+        AddressBookRecord record3 = new AddressBookRecord();
+        record3.setId(3L);
+        record3.setName("dick");
+        record3.setPhone("0402124587");
+        record3.setAbid(3L);
+
+        when(repository.findAllRecordsByAbids(Arrays.asList(2L))).thenReturn(Arrays.asList(record1, record2));
+
+        AddressBookRecord returnRecord1 = new AddressBookRecord(1, "peter", "0430111002", 2);
+        when(repository.removeRecord(1L)).thenReturn(Optional.of(returnRecord1));
+
+        AddressBookRecord returnRecord2 = new AddressBookRecord(2, "donald", "0435495021", 2);
+        when(repository.removeRecord(2L)).thenReturn(Optional.of(returnRecord2));
+
+        List<Contact> removedContacts = service.removeContactsFromAddressBook(Arrays.asList(2L));
+        verify(repository, times(1)).removeRecord(1L);
+        verify(repository, times(1)).removeRecord(2L);
+        assertThat(removedContacts).isNotEmpty().hasSize(2).extracting("id", "name", "phone")
+                .contains(tuple(1L, "peter", "0430111002"),
+                        tuple(2L, "donald", "0435495021"));
+    }
+
+    @Test
+    public void removeContactsFromAddressBook_NoContactsFound() {
+        when(repository.findAllRecordsByAbids(Arrays.asList(6L))).thenReturn(new ArrayList<>());
+        List<Contact> removedContacts = service.removeContactsFromAddressBook(Arrays.asList(6L));
+        assertThat(removedContacts).isEmpty();
+    }
+
+    @Test
+    public void removeContactsFromAddressBook_EmptyAddressBookIds() {
+        when(repository.findAllRecordsByAbids(new ArrayList<>())).thenReturn(new ArrayList<>());
+        List<Contact> removedContacts = service.removeContactsFromAddressBook(new ArrayList<>());
+        assertThat(removedContacts).isEmpty();
+    }
+
+    @Test
+    public void removeContactsFromAddressBook_MissingAddressBookIds() {
+        assertThatThrownBy(() ->
+                service.removeContactsFromAddressBook(null)).hasMessage("address book ids is required");
+    }
 
     @Test
     public void findAllContacts_SingleAddressBook() {

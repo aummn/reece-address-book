@@ -178,6 +178,7 @@ public class AddressBookInfoManager extends Observable {
      */
     public void removeAddressBook() {
         List<AddressBookInfo> selectedAddressBookInfoList = new ArrayList<>();
+        List<Long> selectedAddressBookIdList = new ArrayList<>();
         int[] rowNumbers = addressBookInfoDataTable.getSelectedRows();
         List<AddressBookInfo> dataModelList = dataTableModel.getList();
 
@@ -192,8 +193,10 @@ public class AddressBookInfoManager extends Observable {
                     .forEach(info -> {
                         dataModelList.remove(info);
                         addressBookInfoService.removeAddressBookInfo(info.getId());
+                        selectedAddressBookIdList.add(info.getId());
                     });
 
+            addressBookRecordManager.getAddressBookRecordService().removeContactsFromAddressBook(selectedAddressBookIdList);
             int rowCount = (dataModelList == null)? 0 : dataModelList.size();
             int columnCount = AddressBookInfoDataTableModel.ADDRESS_BOOK_INFO_RECORD_FIELD_NAMES.length;
             dataTableModel = new AddressBookInfoDataTableModel(dataModelList,

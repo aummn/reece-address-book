@@ -5,9 +5,7 @@ import com.reece.model.Contact;
 import com.reece.repo.AddressBookRecordRepository;
 import com.reece.repo.AddressBookRecordRepositoryImpl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,6 +35,16 @@ public class AddressBookRecordServiceImpl implements AddressBookRecordService {
 
     public Optional<Contact> removeContact(long id) {
         return repo.removeRecord(id).map(r -> new Contact(r.getId(), r.getName(), r.getPhone()));
+    }
+
+    public List<Contact> removeContactsFromAddressBook(List<Long> addressBookIds) {
+        if(addressBookIds == null) throw new IllegalArgumentException("address book ids is required");
+        List<Contact> contacts = findAllContacts(addressBookIds);
+        List<Contact> removedContacts = new ArrayList<>();
+        contacts.forEach(c -> {
+            Optional<Contact> removedContactOptional = removeContact(c.getId());
+            removedContactOptional.ifPresent(removedContacts::add);});
+        return removedContacts;
     }
 
     public Optional<Contact> findContact(long id) {

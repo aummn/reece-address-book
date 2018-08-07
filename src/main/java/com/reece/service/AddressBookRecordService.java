@@ -33,6 +33,16 @@ public interface AddressBookRecordService {
     Optional<Contact> removeContact(long id);
 
     /**
+     * Remove contacts from the selected address books.
+     *
+     * @param addressBookIds the ids of address books
+     * @return a list of removed Contact objects
+     *
+     */
+    List<Contact> removeContactsFromAddressBook(List<Long> addressBookIds);
+
+
+    /**
      * Find a contact.
      *
      * @param id the id of a contact
